@@ -1,0 +1,21 @@
+How to compile and run parallel:
+cd parallel
+module load mpi/openmpi-2.1_pgi-18
+module load slurm
+make
+./slurm.sh 
+
+How tom comile and run serial:
+cd serial
+module load mpi/openmpi-2.1_pgi-18
+make
+./heat
+
+
+Runtime Report
+Too many other people were trying to test on cerberus at the same time as me so I was unable to test the larger array test cases.
+		p = 1		p=2		p=4		p=8		p=16
+n =  100	0m1.430s	0m0.974s	0m0.761s	0m1.767s	0m1.277s
+n = 1000	1m42.628s	0m54.439s	0m25.516s	1m0.990s	1m6.943s
+
+After evaluating this dataset I noticed multiple things about MPI speedups. MPI speedups may occur when adding a greater number of processors, but this is not always the case. More processors means that more communication must occur between these processors to complete the computation. This is show in both n = 100 and n = 1000 when in both cases increasing the number of processors to 8 or 16 will cause a overall slowdown in computation.
